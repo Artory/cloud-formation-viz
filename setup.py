@@ -1,18 +1,36 @@
-#!/usr/bin/env python
+from codecs import open
+from os import path
 
-from setuptools import setup
+from setuptools import find_packages, setup
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name='cfviz',
-    version='0.0.0',
+    version='0.1.0',
     description='Python Distribution Utilities',
     author='Ben Butler-Cole',
     author_email='ben@bridesmere.com',
     url='https://github.com/benbc/cloud-formation-viz',
-    py_modules=['cfviz'],
+
+    packages=find_packages(),
+
+    install_requires=[
+        'click',
+        'PyYAML',
+    ],
+
+    zip_safe=True,
+
     entry_points={
-        'console_scripts': ['cfviz=cfviz:main'],
+        'console_scripts': [
+            'cfviz=cloud_formation_viz.cfviz:cli',
+        ],
     },
+
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',
@@ -20,5 +38,5 @@ setup(
         'Operating System :: POSIX',
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',
-    ]
+    ],
 )

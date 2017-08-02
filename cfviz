@@ -3,4 +3,4 @@
 import cloud_formation_viz.cfviz
 
 if __name__ == '__main__':
-    cloud_formation_viz.cfviz.main()
+    cloud_formation_viz.cfviz.cli()
