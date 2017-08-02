@@ -12,9 +12,9 @@ setup(
     name='cfviz',
     version='0.1.0',
     description='Python Distribution Utilities',
-    author='Ben Butler-Cole',
-    author_email='ben@bridesmere.com',
-    url='https://github.com/benbc/cloud-formation-viz',
+    author='Ben Butler-Cole, Jakub Valenta',
+    author_email='ben@bridesmere.com, jakub.valenta@artory.com',
+    url='https://github.com/Artory/cloud-formation-viz',
 
     packages=find_packages(),
 
