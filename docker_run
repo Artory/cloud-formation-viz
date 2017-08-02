@@ -1,7 +1,4 @@
 #!/bin/bash
-mkdir -p results
-f="/app/$1"
-name=$(basename "$1")
-docker run --rm  --volume "$(pwd)/results":"/results" \
-       cfviz \
-       sh -c "cd / && cfviz $f | dot -Tsvg > results/$name.svg"
+template=$(cat "$1")
+docker run --rm cfviz \
+       sh -c "echo '$template' | cfviz | dot -Tsvg"

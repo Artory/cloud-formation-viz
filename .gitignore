@@ -35,6 +35,3 @@ nosetests.xml
 .pydevproject
 out.svg
 test.svg
-
-# Results
-results/
