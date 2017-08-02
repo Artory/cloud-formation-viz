@@ -1,9 +1,9 @@
 import datetime
+import io
 import sys
 from numbers import Number
 
 import click
-
 from cloud_formation_viz import cf_template
 
 
@@ -146,5 +146,5 @@ def cli(path, **kwargs):
         with open(path) as f:
             template = cf_template.load(f)
     else:
-        template = cf_template.load(sys.stdin)
+        template = cf_template.load(io.StringIO(sys.stdin.read()))
     viz(template, **kwargs)
