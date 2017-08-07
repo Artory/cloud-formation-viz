@@ -1,4 +1,0 @@
-#!/bin/bash
-template=$(cat "$1")
-docker run --rm cfviz \
-       sh -c "echo '$template' | cfviz | dot -Tsvg"
