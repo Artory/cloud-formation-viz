@@ -4,6 +4,7 @@ import sys
 from numbers import Number
 
 import click
+
 from cloud_formation_viz import cf_template
 
 
@@ -48,7 +49,11 @@ def find_refs(context, elem):
                                .format(type_=type(elem), elem=elem))
 
 
-def extract_graph(elem, excl=(), excl_pseudo_params=False, **kwargs):
+def extract_graph(elem,
+                  excl=(),
+                  excl_pseudo_params=False,
+                  excl_second_level=False,
+                  **kwargs):
     nodes = []
     edges = []
     for item, details in elem.items():
@@ -62,6 +67,10 @@ def extract_graph(elem, excl=(), excl_pseudo_params=False, **kwargs):
                        edges)
     if excl_pseudo_params:
         edges = filter(lambda e: not e['from'].startswith('AWS::'), edges)
+
+    if excl_second_level:
+        keys = elem.keys()
+        edges = filter(lambda e: e['from'] in keys, edges)
 
     graph = {
         'nodes': nodes,
@@ -113,7 +122,11 @@ def render(graph, subgraph=False):
     print('}')
 
 
-def viz(template, print_parameters, print_outputs, print_pseudo_params):
+def viz(template,
+        print_parameters,
+        print_outputs,
+        print_pseudo_params,
+        print_second_level_resources):
     if not print_parameters:
         excl = template.get('Parameters', {}).keys()
     else:
@@ -122,6 +135,7 @@ def viz(template, print_parameters, print_outputs, print_pseudo_params):
     graph = extract_graph(template['Resources'],
                           excl=excl,
                           excl_pseudo_params=not print_pseudo_params,
+                          excl_second_level=not print_second_level_resources,
                           name=template.get('Description', ''))
 
     if print_parameters:
@@ -141,6 +155,7 @@ def viz(template, print_parameters, print_outputs, print_pseudo_params):
 @click.option('--print-parameters', is_flag=True)
 @click.option('--print-outputs', is_flag=True)
 @click.option('--print-pseudo-params', is_flag=True)
+@click.option('--print-second-level-resources', is_flag=True)
 def cli(path, **kwargs):
     if path:
         with open(path) as f:
